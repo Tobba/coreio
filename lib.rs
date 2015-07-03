@@ -12,9 +12,9 @@ use core::slice::bytes::copy_memory;
 #[macro_export]
 macro_rules! try {
 	($expr:expr) => (match $expr {
-		core::result::Result::Ok(val) => val,
-		core::result::Result::Err(err) => {
-			return core::result::Result::Err(core::convert::From::from(err))
+		::core::result::Result::Ok(val) => val,
+		::core::result::Result::Err(err) => {
+			return ::core::result::Result::Err(::core::convert::From::from(err))
 		}
 	})
 }
