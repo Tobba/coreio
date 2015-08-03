@@ -2,7 +2,3 @@
 name = "coreio"
 version = "0.0.1"
 authors = []
-
-[lib]
-name = "coreio"
-path = "lib.rs"
