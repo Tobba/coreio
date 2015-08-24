@@ -1,12 +1,15 @@
 #![no_std]
 #![feature(no_std)]
-#![feature(core, core_prelude, core_slice_ext, slice_bytes)]
+#![feature(core, core_prelude, core_slice_ext, core_str_ext, slice_bytes)]
 
 #[macro_use]
 extern crate core;
 extern crate void;
 
 use core::prelude::*;
+use core::fmt;
+
+use void::{unreachable, Void};
 
 pub mod slice;
 pub mod cursor;
@@ -25,8 +28,20 @@ macro_rules! try {
 #[derive(Copy, Clone, Debug)]
 pub struct EndOfFile;
 
+impl From<Void> for EndOfFile {
+	fn from(v: Void) -> EndOfFile {
+		unreachable(v)
+	}
+}
+
 #[derive(Copy, Clone, Debug)]
 pub struct OutOfBounds;
+
+impl From<Void> for OutOfBounds {
+	fn from(v: Void) -> OutOfBounds {
+		unreachable(v)
+	}
+}
 
 pub trait Read {
 	type Err;
@@ -64,6 +79,36 @@ pub trait Write {
 			}
 		}
 		Ok(())
+	}
+
+	fn write_fmt<E=<Self as Write>::Err>(&mut self, fmt: fmt::Arguments) -> Result<(), E>
+		where E: From<Self::Err> + From<EndOfFile>
+	{
+		// Create a shim which translates a Write to a fmt::Write and saves
+		// off I/O errors. instead of discarding them
+		struct Adaptor<'a, T: ?Sized + 'a, E> {
+			inner: &'a mut T,
+			result: Result<(), E>,
+		}
+
+		impl<'a, T: ?Sized, F> fmt::Write for Adaptor<'a, T, F>
+			where T: Write,
+			      F: From<EndOfFile> + From<T::Err>
+		{
+			fn write_str(&mut self, s: &str) -> fmt::Result {
+				match self.inner.write_all(s.as_bytes()) {
+					Ok(()) => Ok(()),
+					Err(e) => {
+						self.result = Err(e);
+						Err(fmt::Error)
+					}
+				}
+			}
+		}
+
+		let mut output = Adaptor { inner: self, result: Ok(()) };
+		let _ = fmt::write(&mut output, fmt);
+		output.result
 	}
 }
 
