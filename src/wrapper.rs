@@ -1,5 +1,3 @@
-use core::prelude::*;
-
 use super::*;
 
 impl<'a, R: Read> Read for &'a mut R {

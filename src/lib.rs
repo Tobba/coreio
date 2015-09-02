@@ -1,12 +1,9 @@
 #![no_std]
 #![feature(no_std)]
-#![feature(core, core_prelude, core_slice_ext, core_str_ext, slice_bytes)]
+#![feature(core_slice_ext, core_str_ext, slice_bytes)]
 
-#[macro_use]
-extern crate core;
 extern crate void;
 
-use core::prelude::*;
 use core::fmt;
 
 use void::{unreachable, Void};

@@ -1,4 +1,3 @@
-use core::prelude::*;
 use core::cmp::min;
 
 use void::{Void, ResultVoidExt};

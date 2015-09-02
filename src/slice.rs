@@ -1,4 +1,3 @@
-use core::prelude::*;
 use core::cmp::min;
 use core::mem::{replace, uninitialized};
 use core::slice::bytes::copy_memory;
