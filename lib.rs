@@ -1,11 +1,7 @@
 #![no_std]
 #![feature(no_std)]
-#![feature(core, core_prelude, core_slice_ext, slice_bytes)]
+#![feature(core_slice_ext, slice_bytes)]
 
-#[macro_use]
-extern crate core;
-
-use core::prelude::*;
 use core::cmp::min;
 use core::slice::bytes::copy_memory;
 
