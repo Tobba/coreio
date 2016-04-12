@@ -3,6 +3,6 @@ name = "coreio"
 version = "0.0.1"
 authors = []
 
-
-[dependencies]
-void = "*"
+[dependencies.void]
+version = "1"
+default-features = false
