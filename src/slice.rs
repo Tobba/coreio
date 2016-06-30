@@ -1,6 +1,5 @@
 use core::cmp::min;
 use core::mem::{replace, uninitialized};
-use core::slice::bytes::copy_memory;
 
 use void::{Void, ResultVoidExt};
 
@@ -12,7 +11,7 @@ impl<'a> Read for &'a [u8] {
     fn read(&mut self, buf: &mut [u8]) -> Result<usize, Void> {
         let len = min(buf.len(), self.len());
         let (a, b) = self.split_at(len);
-        copy_memory(a, buf);
+        buf.clone_from_slice(&a[..len]);
         *self = b;
         Ok(len)
     }
@@ -39,7 +38,7 @@ impl<'a> Write for &'a mut [u8] {
         let mut tmp = replace(self, unsafe { uninitialized() });
         let (a, b) = tmp.split_at_mut(len);
 
-        copy_memory(buf, a);
+        a.clone_from_slice(&buf[..len]);
         *self = b;
         Ok(len)
     }
