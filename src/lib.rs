@@ -1,6 +1,4 @@
 #![no_std]
-#![feature(no_std)]
-#![feature(core_slice_ext, core_str_ext, slice_bytes)]
 
 extern crate void;
 
