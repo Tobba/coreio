@@ -16,7 +16,7 @@ impl<'a> Read for &'a [u8] {
         Ok(len)
     }
 
-    fn read_all<E=EndOfFile>(&mut self, buf: &mut [u8]) -> Result<(), E>
+    fn read_all<E>(&mut self, buf: &mut [u8]) -> Result<(), E>
         where E: From<Void> + From<EndOfFile>
     {
         if buf.len() < self.len() {
@@ -43,7 +43,7 @@ impl<'a> Write for &'a mut [u8] {
         Ok(len)
     }
 
-    fn write_all<E=Void>(&mut self, buf: &[u8]) -> Result<(), E>
+    fn write_all<E>(&mut self, buf: &[u8]) -> Result<(), E>
         where E: From<Void> + From<EndOfFile>
     {
         if self.len() < buf.len()  {
