@@ -6,9 +6,13 @@ use core::fmt;
 
 use void::{unreachable, Void};
 
-pub mod slice;
-pub mod cursor;
-pub mod wrapper;
+pub use slice::*;
+pub use cursor::*;
+pub use wrapper::*;
+
+mod slice;
+mod cursor;
+mod wrapper;
 
 #[macro_export]
 macro_rules! try {
