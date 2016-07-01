@@ -7,10 +7,10 @@ impl<'a, R: Read> Read for &'a mut R {
         (**self).read(buf)
     }
 
-    fn read_all<E>(&mut self, buf: &mut [u8]) -> Result<(), E>
+    fn read_exact<E>(&mut self, buf: &mut [u8]) -> Result<(), E>
         where E: From<R::Err> + From<EndOfFile>
     {
-        (**self).read_all(buf)
+        (**self).read_exact(buf)
     }
 }
 

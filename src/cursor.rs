@@ -27,10 +27,10 @@ impl<'a> Read for Cursor<&'a [u8]> {
         Ok(len)
     }
 
-    fn read_all<E>(&mut self, buf: &mut [u8]) -> Result<(), E>
+    fn read_exact<E>(&mut self, buf: &mut [u8]) -> Result<(), E>
         where E: From<Void> + From<EndOfFile>
     {
-        try!((&self.inner[self.pos as usize..]).read_all::<E>(buf));
+        try!((&self.inner[self.pos as usize..]).read_exact::<E>(buf));
         self.pos += buf.len() as u64;
         Ok(())
     }

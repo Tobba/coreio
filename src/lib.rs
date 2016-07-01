@@ -47,7 +47,7 @@ pub trait Read {
 
     fn read(&mut self, buf: &mut [u8]) -> Result<usize, Self::Err>;
 
-    fn read_all<E>(&mut self, mut buf: &mut [u8]) -> Result<(), E>
+    fn read_exact<E>(&mut self, mut buf: &mut [u8]) -> Result<(), E>
         where E: From<Self::Err> + From<EndOfFile>
     {
         while buf.len() > 0 {

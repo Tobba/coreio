@@ -16,7 +16,7 @@ impl<'a> Read for &'a [u8] {
         Ok(len)
     }
 
-    fn read_all<E>(&mut self, buf: &mut [u8]) -> Result<(), E>
+    fn read_exact<E>(&mut self, buf: &mut [u8]) -> Result<(), E>
         where E: From<Void> + From<EndOfFile>
     {
         if buf.len() < self.len() {
